@@ -1,1 +1,0 @@
-{"version":3,"sources":["js/01-color-switcher.js"],"names":["refs","body","document","querySelector","console","log"],"mappings":";AAAA,MAAMA,EAAO,CACXC,KAAMC,SAASC,cAAc,SAG/BC,QAAQC,IAAIL,EAAKC","file":"01-color-switcher.eb446b86.js","sourceRoot":"../src","sourcesContent":["const refs = {\n  body: document.querySelector('body'),\n};\n\nconsole.log(refs.body);\n"]}
