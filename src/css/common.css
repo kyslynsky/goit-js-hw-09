@@ -16,3 +16,27 @@ img {
   display: block;
   max-width: 100%;
 }
+
+/* ---- 2 task ---- */
+
+.timer {
+  display: grid;
+  grid-template-columns: repeat(4, 50px);
+  column-gap: 10px;
+  margin-top: 15px;
+}
+
+.field {
+  text-align: center;
+}
+
+.value {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+}

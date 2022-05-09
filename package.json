@@ -25,5 +25,7 @@
     "posthtml-include": "^1.7.3",
     "sass": "^1.51.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "flatpickr": "^4.6.13"
+  }
 }
