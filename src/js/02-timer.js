@@ -44,6 +44,7 @@ function getTimerValues(date) {
   if (resultTime > 0) {
     updateClockFace(time);
   }
+  console.log(time);
 }
 
 function updateClockFace({ days, hours, minutes, seconds }) {
