@@ -1,5 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
   startBtn: document.querySelector('[data-start]'),
@@ -10,6 +11,7 @@ const refs = {
 };
 
 let intervalId = null;
+let selectedUserDate = '';
 
 refs.startBtn.setAttribute('disabled', true);
 
@@ -19,9 +21,9 @@ const config = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    let selectedUserDate = selectedDates[0].getTime();
+    selectedUserDate = selectedDates[0].getTime();
     checkValidDate(selectedUserDate);
-    getTimerValues(selectedUserDate);
+    getTimerValues();
   },
 };
 
@@ -29,7 +31,11 @@ flatpickr('#datetime-picker', config);
 
 function checkValidDate(date) {
   if (date < config.defaultDate) {
-    alert('Please choose a date in the future');
+    Notify.failure('Please choose a date in the future', {
+      timeout: 1300,
+      showOnlyTheLastOne: true,
+      clickToClose: true,
+    });
     refs.startBtn.setAttribute('disabled', true);
     return;
   }
@@ -37,14 +43,19 @@ function checkValidDate(date) {
   refs.startBtn.removeAttribute('disabled');
 }
 
-function getTimerValues(date) {
-  const resultTime = date - config.defaultDate;
+function getTimerValues() {
+  const startTime = Date.now();
+  const resultTime = selectedUserDate - startTime;
   const time = convertMs(resultTime);
+  console.log('time', time);
 
   if (resultTime > 0) {
     updateClockFace(time);
   }
-  console.log(time);
+
+  if (resultTime < 1000) {
+    clearInterval(intervalId);
+  }
 }
 
 function updateClockFace({ days, hours, minutes, seconds }) {
@@ -53,6 +64,14 @@ function updateClockFace({ days, hours, minutes, seconds }) {
   refs.minutes.textContent = addLeadingZero(minutes);
   refs.seconds.textContent = addLeadingZero(seconds);
 }
+
+refs.startBtn.addEventListener('click', () => {
+  if (intervalId) {
+    return;
+  }
+
+  intervalId = setInterval(getTimerValues, 1000);
+});
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
@@ -76,7 +95,3 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-refs.startBtn.addEventListener('click', () => {
-  intervalId = setInterval(getTimerValues, 1000);
-});
